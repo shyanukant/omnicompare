@@ -9,23 +9,23 @@ https://docs.djangoproject.com/en/6.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
-
+import os
 from pathlib import Path
-
+from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+# Load .env file from the project root
+load_dotenv(BASE_DIR/ '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-jdy54jp)xl476@o1(0yb(a@ou(&sf5z!d)osgiy_p5-8u4_c%a"
-
+SECRET_KEY = os.getenv('SECRET_KEY', "fallback-to-insure-key-for-dev")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG',True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,11 +41,11 @@ INSTALLED_APPS = [
 ]
 
 # Add your Bright Data API configuration at the bottom
-BRIGHT_DATA_API_TOKEN = "YOUR_BRIGHT_DATA_API_TOKEN"
+BRIGHT_DATA_API_TOKEN = os.getenv('BRIGHT_DATA_API_TOKEN')
 SCRAPER_COLLECTORS = {
-    "Amazon US": "c_amazon_xxxxxx",
-    "eBay US": "c_ebay_xxxxxx",
-    "Newegg": "c_newegg_xxxxxx",
+    "Amazon US": os.getenv('COLLECTOR_AMAZON'),
+    "eBay US": os.getenv('COLLECTOR_EBAY'),
+    "Newegg": os.getenv('COLLECTOR_NEWEGG'),
 }
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
